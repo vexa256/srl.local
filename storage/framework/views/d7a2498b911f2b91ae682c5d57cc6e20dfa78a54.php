@@ -1,0 +1,32 @@
+<div data-kt-menu-trigger="click" class="menu-item menu-accordion viewer_only">
+    <span class="menu-link">
+        <span class="menu-icon">
+            <i class="fas text-light fw-bolder fa-2x me-1 fa-users" aria-hidden="true"></i>
+        </span>
+        <span class="menu-title ms-2 fs-6">Student Dashboard</span>
+        <span class="menu-arrow"></span>
+    </span>
+    <div class="menu-sub menu-sub-accordion menu-active-bg">
+
+        <?php
+        
+        MenuItem($link = route('SelectLinksCourse'), $label = 'Live Lecture Sessions');
+        
+        MenuItem($link = route('NotesSelectCourse'), $label = 'Course Notes');
+        
+        MenuItem($link = route('StartModularExam'), $label = 'Modular Questions');
+        
+        MenuItem($link = route('StartPracticalExam'), $label = 'Practical Questions');
+        
+        MenuItem($link = route('RunScoreTotal'), $label = 'Score Board');
+        
+        MenuItem($link = route('Certify'), $label = 'Print Certificate');
+        
+        // MenuItem($link = route('StartPostExam'), $label = 'Print Certificate');
+        
+        ?>
+
+
+    </div>
+</div>
+<?php /**PATH /var/www/html/srl.local/views/sidebar/Student.blade.php ENDPATH**/ ?>
