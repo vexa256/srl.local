@@ -1,6 +1,11 @@
 <!--begin::Card body-->
 <div class="card-body pt-3 bg-light shadow-lg table-responsive">
-    <?php echo Alert($icon = 'fa-info', $class = 'alert-primary', $Title = ' Approve pending student course enrollment application ', $Msg = null); ?>
+    <?php echo Alert(
+        $icon = 'fa-info',
+        $class = 'alert-primary',
+        $Title = ' Approve pending student course enrollment application ',
+        $Msg = null,
+    ); ?>
 
 
 </div>
@@ -47,7 +52,7 @@
                         <td><?php echo e($data->name); ?></td>
                         <td><?php echo e($data->CourseName); ?></td>
 
-                        <?php if($data->ApprovalStatus == 'false'): ?>
+                        <?php if($data->role == 'Approve'): ?>
                             <td class="bg-dark text-light">Application Pending
                                 Approval</td>
                         <?php else: ?>

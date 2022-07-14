@@ -2,7 +2,12 @@
     <div class="col-md-12">
         <!--begin::Card body-->
         <div class="card-body pt-3 bg-light shadow-lg table-responsive">
-            {!! Alert($icon = 'fa-info', $class = 'alert-primary', $Title = $ModuleName . ' (' . $CourseName . ') Document Notes', $Msg = null) !!}
+            {!! Alert(
+                $icon = 'fa-info',
+                $class = 'alert-primary',
+                $Title = $ModuleName . ' (' . $CourseName . ') Document Notes',
+                $Msg = null,
+            ) !!}
 
 
         </div>
@@ -41,7 +46,7 @@
                 </thead>
                 <tbody>
                     @isset($Notes)
-                        @foreach ($Notes->unique('id') as $data)
+                        @foreach ($Notes as $data)
                             <tr>
 
                                 <td>{{ $CourseName }}</td>
@@ -68,13 +73,13 @@
                                     <td>
 
                                         {!! ConfirmBtn(
-    $data = [
-        'msg' => 'You want to delete this record',
-        'route' => route('DeleteDoc', ['id' => $data->id, 'TableName' => 'notes']),
-        'label' => '<i class="fas fa-trash"></i>',
-        'class' => 'btn btn-danger btn-sm deleteConfirm admin',
-    ],
-) !!}
+                                            $data = [
+                                                'msg' => 'You want to delete this record',
+                                                'route' => route('DeleteDoc', ['id' => $data->id, 'TableName' => 'notes']),
+                                                'label' => '<i class="fas fa-trash"></i>',
+                                                'class' => 'btn btn-danger btn-sm deleteConfirm admin',
+                                            ],
+                                        ) !!}
 
                                     </td>
                                 @endif

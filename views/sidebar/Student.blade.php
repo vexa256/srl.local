@@ -7,24 +7,33 @@
         <span class="menu-arrow"></span>
     </span>
     <div class="menu-sub menu-sub-accordion menu-active-bg">
-
-        <?php
-        
-        MenuItem($link = route('SelectLinksCourse'), $label = 'Live Lecture Sessions');
-        
-        MenuItem($link = route('NotesSelectCourse'), $label = 'Course Notes');
-        
-        MenuItem($link = route('StartModularExam'), $label = 'Modular Questions');
-        
-        MenuItem($link = route('StartPracticalExam'), $label = 'Practical Questions');
-        
-        MenuItem($link = route('RunScoreTotal'), $label = 'Score Board');
-        
-        MenuItem($link = route('Certify'), $label = 'Print Certificate');
-        
-        // MenuItem($link = route('StartPostExam'), $label = 'Print Certificate');
-        
-        ?>
+        @if (Auth::user()->role == 'student')
+            <?php
+            
+            MenuItem($link = route('StudentModules'), $label = 'All Course Modules');
+            
+            MenuItem($link = route('SelectLinksCourse'), $label = 'Live Lecture Sessions');
+            
+            MenuItem($link = route('NotesSelectCourse'), $label = 'Course Notes');
+            
+            MenuItem($link = route('StartModularExam'), $label = 'Modular Questions');
+            
+            MenuItem($link = route('StartPracticalExam'), $label = 'Practical Questions');
+            
+            MenuItem($link = route('RunScoreTotal'), $label = 'Score Board');
+            
+            MenuItem($link = route('Certify'), $label = 'Print Certificate');
+            
+            // MenuItem($link = route('StartPostExam'), $label = 'Print Certificate');
+            
+            ?>
+        @else
+            <?php
+            
+            MenuItem($link = route('ApplicationStatus'), $label = 'Application Status');
+            
+            ?>
+        @endif
 
 
     </div>

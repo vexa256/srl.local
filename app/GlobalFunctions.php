@@ -453,3 +453,20 @@ function RunUpdateModalFinal(
         $TableName
     );
 }
+
+define("COORDINATORS_TABLE", "CREATE TABLE `cordinators` (
+    `id` bigint UNSIGNED NOT NULL,
+    `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `Name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `Signature` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `created_at` timestamp NULL DEFAULT NULL,
+    `updated_at` timestamp NULL DEFAULT NULL
+  );
+
+  INSERT INTO `cordinators` (`id`, `uuid`, `Name`, `Signature`, `created_at`, `updated_at`) VALUES
+(1, '26276667276', 'NIRINGYIMANA BENJAMINI', 'assets/data/abenja.png', NULL, NULL),
+(2, '262766092762728', 'NAKIWALA DOROTHY', 'assets/data/adora.png', NULL, NULL);
+
+
+ALTER TABLE `cordinators`
+  ADD PRIMARY KEY (`id`);");

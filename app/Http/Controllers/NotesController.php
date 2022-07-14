@@ -56,7 +56,7 @@ class NotesController extends Controller
     {
         $Modules = DB::table('courses AS C')
             ->join('modules AS M', 'M.CID', 'C.CID')
-            ->where('M.CID', $CID)
+            ->where('C.CID', $CID)
             ->select('C.CourseName', 'M.*')
             ->get();
 

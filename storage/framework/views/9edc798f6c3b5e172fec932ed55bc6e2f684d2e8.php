@@ -47,9 +47,9 @@
                             Options</span>
                     </div>
                 </div>
-
+                ''
                 <?php if(auth()->guard()->check()): ?>
-                    <?php if(Auth::user()->role == 'student'): ?>
+                    <?php if(Auth::user()->role == 'student' || Auth::user()->role == 'Approve' || Auth::user()->role == 'PreTest'): ?>
                         <?php echo $__env->make('sidebar.Student', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                     <?php elseif(Auth::user()->role == 'Instructor'): ?>
                         <?php echo $__env->make('sidebar.Facilitators', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
@@ -57,8 +57,8 @@
                     <?php else: ?>
                         <?php echo $__env->make('sidebar.CourseSettings', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                         <?php echo $__env->make('sidebar.CourseMaterials', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-                        
-                        
+                        <?php echo $__env->make('sidebar.Reports', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                        <?php echo $__env->make('sidebar.Users', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                     <?php endif; ?>
                 <?php endif; ?>
 

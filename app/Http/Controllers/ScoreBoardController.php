@@ -100,11 +100,11 @@ class ScoreBoardController extends Controller
         $Attendance     = (100 / 100) * 20;
         $Total          = $PostScore + $Attendance + $PracticalScore + $Modular;
 
-        if ($Total < 40) {
+        if ($Total < 80) {
 
             return redirect()
                 ->back()
-                ->with('error_a', 'You scored below the required pass-mark');
+                ->with('error_a', 'You  do not qualify for certification yet. Attempt all tests and score  80%  or above to certify');
 
         }
         $data = [

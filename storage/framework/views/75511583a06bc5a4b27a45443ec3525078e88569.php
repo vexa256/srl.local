@@ -9,13 +9,12 @@
                 <div class="mb-3 col-md-12  py-5   my-5">
                     <label id="label" for="" class="px-5   my-5 required form-label">Select
                         Course Module</label>
-                    <select required name="id"
-                        class="form-select  py-5   my-5 form-select-solid"
+                    <select required name="id" class="form-select  py-5   my-5 form-select-solid"
                         data-control="select2" data-placeholder="Select a option">
                         <option></option>
                         <?php if(isset($Modules)): ?>
 
-                            <?php $__currentLoopData = $Modules->unique('module'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <?php $__currentLoopData = $Modules; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <option value="<?php echo e($data->id); ?>">
                                     <?php echo e($data->Module); ?>
 

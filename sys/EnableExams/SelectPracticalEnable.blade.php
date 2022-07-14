@@ -14,7 +14,7 @@
                         <option></option>
                         @isset($Modules)
 
-                            @foreach ($Modules->unique('module') as $data)
+                            @foreach ($Modules as $data)
                                 <option value="{{ $data->id }}">
                                     {{ $data->Module }}
                                     ({{ $data->CourseName }})

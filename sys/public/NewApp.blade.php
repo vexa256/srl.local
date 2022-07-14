@@ -48,12 +48,17 @@
 
                         <input type="hidden" name="created_at" value="{{ date('Y-m-d h:i:s') }}">
 
+                        <input type="hidden" name="role" value="Approve">
+
                         <input type="hidden" name="TableName" value="students">
 
                         @foreach ($Form as $data)
                             @if ($data['type'] == 'string')
                                 {{ CreateInputText($data, $placeholder = null, $col = '4') }}
-                            @elseif ('smallint' == $data['type'] || 'bigint' === $data['type'] || 'integer' == $data['type'] || 'bigint' == $data['type'])
+                            @elseif ('smallint' == $data['type'] ||
+                                'bigint' === $data['type'] ||
+                                'integer' == $data['type'] ||
+                                'bigint' == $data['type'])
                                 {{ CreateInputInteger($data, $placeholder = null, $col = '4') }}
                             @elseif ($data['type'] == 'date' || $data['type'] == 'datetime')
                                 {{ CreateInputDate($data, $placeholder = null, $col = '4') }}
@@ -73,6 +78,15 @@
                                 Document (Only PDF )</label>
 
                             <input type="file" required name="StudentID" class="form-control" id="">
+
+                        </div>
+
+
+
+                        <div class="mt-3  mb-3 col-md-4 ">
+                            <label id="label" for="" class=" required form-label">Country</label>
+
+                            <input type="text" required name="nationality" class="form-control" id="">
 
                         </div>
 

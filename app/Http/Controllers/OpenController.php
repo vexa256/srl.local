@@ -4,21 +4,112 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\FormEngine;
 use App\Http\Controllers\SystemController;
+use App\Mail\NotifyMail;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
+use Mail;
 
+// use Illuminate\Http\Request;
 class OpenController extends Controller
 {
 
     public function __construct()
     {
 
+        if (!\Schema::hasTable('approval_details')) {
+            \Schema::create('approval_details', function ($table) {
+                $table->id();
+                $table->string('uuid');
+                $table->string('UserID');
+                $table->date('From');
+                $table->date('To');
+                $table->string('Coordinator');
+                $table->string('Signature');
+                $table->string('Sent')->default('false');
+                $table->timestamps();
+            });
+
+        }
+
+        if (!\Schema::hasTable('cordinators')) {
+            DB::unprepared(COORDINATORS_TABLE);
+        }
+
+    }
+
+    public function StudentModules()
+    {
+        $Courses = DB::table('courses')
+            ->where('CID', '=', Auth::user()->CID)
+            ->first();
+
+        $Modules = DB::table('modules')
+            ->where('CID', '=', Auth::user()->CID)
+            ->get();
+
+        $rem = ['id', 'created_at', 'updated_at', 'ModulePresentation', 'uuid', 'CID', 'MID'];
+
+        $FormEngine = new FormEngine();
+        $data       = [
+            'Page'       => 'public.MyModules',
+            'Title'      => 'View all modules for  your course',
+            'Desc'       => $Courses->CourseName,
+            'Modules'    => $Modules,
+            'CourseName' => $Courses->CourseName,
+            'CID'        => $Courses->CID,
+            'rem'        => $rem,
+            'Form'       => $FormEngine->Form('modules'),
+        ];
+
+        return view('scrn', $data);
+    }
+
+    private function SendAdmissionLetter()
+    {
+
+        $UserID = Auth::user()->UserID;
+
+        $Details = DB::table('approval_details')
+            ->where('UserID', $UserID)
+            ->first();
+
+        $course = DB::table('students AS S')
+            ->where('S.uuid', $UserID)
+            ->join('courses AS C', 'C.CID', 'S.CID')
+            ->select('C.*', 'S.*')
+            ->first();
+
+        $Contents = ['Course' => $course->CourseName,
+
+            "From"                => $Details->From,
+            "To"                  => $Details->To,
+            "Cord"                => $Details->Coordinator,
+            "Signature"           => $Details->Signature,
+        ];
+
+        if ($Details->Sent == 'false' || $Details->Sent == null) {
+
+            Mail::to(Auth::user()->email)->send(new NotifyMail($Contents));
+
+            $Details = DB::table('approval_details')
+                ->where('UserID', $UserID)
+                ->update([
+                    'Sent' => 'true',
+                ]);
+
+        }
+
     }
 
     public function ViewCourses(Type $var = null)
     {
+        if (Auth::check()) {
 
+            if (Auth::user()->role == 'student') {
+                return $this->StudentDashboard();
+            }
+        }
         $SystemController = new SystemController();
 
         if (Auth::check()) {
@@ -29,6 +120,9 @@ class OpenController extends Controller
                 Auth::user()->role == 'PreTest'
 
             ) {
+
+                $this->SendAdmissionLetter();
+
                 return $SystemController->LoadPretestExam();
 
             } elseif (Auth::user()->role == 'Approve') {
@@ -62,6 +156,7 @@ class OpenController extends Controller
             'StartDate',
             'CourseDuration',
             'Comment',
+            'nationality',
 
         ];
 
@@ -77,6 +172,7 @@ class OpenController extends Controller
             'Desc'     => 'Select a course to enroll for',
             'Courses'  => $Courses,
             'Students' => $Students,
+            'TermsYes' => 'true',
             'Policy'   => 'true',
             'rem'      => $rem,
             'Form'     => $FormEngine->Form('students'),
@@ -85,8 +181,69 @@ class OpenController extends Controller
         return view('scrn', $data);
     }
 
+    public function StudentDashboard()
+    {
+        $Modules = DB::table('modules')->where('CID', Auth::user()
+                ->CID)->count();
+
+        $Notes = DB::table('notes')->where('CID', Auth::user()
+                ->CID)->count();
+
+        $Prac = DB::table('practical_tests')->where('CID', Auth::user()
+                ->CID)->count();
+
+        $Mods = DB::table('modular_tests')->where('CID', Auth::user()
+                ->CID)->count();
+
+        $PostTests = DB::table('post_tests')->where('CID', Auth::user()
+                ->CID)->count();
+
+        $AttemptPostTests = DB::table('attempt_post_tests')
+            ->where('UserID', Auth::user()
+                    ->UserID)->count();
+
+        $AttemptModTests = DB::table('attempt_modular_tests')
+            ->where('UserID', Auth::user()
+                    ->UserID)->count();
+
+        $AttemptPracTests = DB::table('attempt_practical_tests')
+            ->where('UserID', Auth::user()
+                    ->UserID)->count();
+
+        $Instructors = DB::table('instructors')
+            ->where('CID', Auth::user()
+                    ->CID)->count();
+
+        $data = [
+            //"Page" => "users.MgtUsers",
+            'Page'             => 'StudentStats.Stats',
+            'Title'            =>
+            'SRL Uganda E-learning | Student Dashboard ',
+            'Desc'             => Auth::user()->name,
+            'Modules'          => $Modules,
+            'Notes'            => $Notes,
+            'Prac'             => $Prac,
+            'Mods'             => $Mods,
+            'PostTests'        => $PostTests,
+            'AttemptPostTests' => $AttemptPostTests,
+            'AttemptModTests'  => $AttemptModTests,
+            'AttemptPracTests' => $AttemptPracTests,
+            'Instructors'      => $Instructors,
+
+        ];
+
+        return view('scrn', $data);
+    }
+
     public function dashboard(Type $var = null)
     {
+
+        if (Auth::check()) {
+
+            if (Auth::user()->role == 'student') {
+                return $this->StudentDashboard();
+            }
+        }
 
         $SystemController = new SystemController();
 
@@ -169,14 +326,14 @@ class OpenController extends Controller
         $request->StudentID->move(public_path('assets/data'), $CV);
 
         DB::table($request->TableName)->insert(
-            $request->except(['_token', 'TableName', 'id', 'files'])
+            $request->except(['_token', 'TableName', 'id', 'files', 'role'])
         );
 
         DB::table('users')->insert([
             'UserID'            => $request->uuid,
             'password'          => \Hash::make($request->Email),
             'email'             => $request->Email,
-            'role'              => 'PreTest',
+            'role'              => 'Approve',
             'phone'             => $request->MobileNumber,
             'name'              => $request->Name,
             'ApplicationLetter' => $request->ReasonsForJoining,
@@ -207,6 +364,8 @@ class OpenController extends Controller
 
     public function ApproveStudentApps(Type $var = null)
     {
+        $Coordinators = DB::table('cordinators')->get();
+        // dd($Coordinators);
         $Apps = DB::table('students AS S')
             ->join('courses AS C', 'C.CID', 'S.CID')
             ->join('users AS U', 'U.UserID', 'S.uuid')
@@ -220,11 +379,13 @@ class OpenController extends Controller
                 'U.id AS Uid'
             )
             ->get();
+
         $data = [
-            'Page'  => 'public.ApproveApplication',
-            'Title' => 'Approve Student Course Application',
-            'Desc'  => 'Course Application Approval ',
-            'Apps'  => $Apps,
+            'Page'         => 'public.ApproveApplication',
+            'Title'        => 'Approve Student Course Application',
+            'Desc'         => 'Course Application Approval ',
+            'Apps'         => $Apps,
+            'Coordinators' => $Coordinators,
         ];
 
         return view('scrn', $data);
@@ -232,6 +393,11 @@ class OpenController extends Controller
 
     public function ApplicationStatus(Type $var = null)
     {
+
+        $Coordinators = DB::table('cordinators')->count();
+
+        // dd($Coordinators);
+
         $Apps = DB::table('students AS S')
             ->join('courses AS C', 'C.CID', 'S.CID')
             ->join('users AS U', 'U.UserID', 'S.uuid')
@@ -246,10 +412,11 @@ class OpenController extends Controller
             )
             ->get();
         $data = [
-            'Page'  => 'public.ApplicationStatus',
-            'Title' => 'Your Course Application Dashboard',
-            'Desc'  => 'Course Application ',
-            'Apps'  => $Apps,
+            'Page'         => 'public.ApplicationStatus',
+            'Title'        => 'Your Course Application Dashboard',
+            'Desc'         => 'Course Application ',
+            'Apps'         => $Apps,
+            'Coordinators' => $Coordinators,
         ];
 
         return view('scrn', $data);
@@ -266,13 +433,28 @@ class OpenController extends Controller
             ->update([
 
                 "ApprovalStatus" => 'Approved',
-                "StartDate"      => $request->StartDate,
-                "CourseDuration" => $request->CourseDuration,
-                "Comment"        => $request->Comment,
+                "StartDate"      => $request->From,
+                "CourseDuration" => 00,
+                "Comment"        => 'Student Approved',
 
             ]);
 
-        DB::table('users')->where('id', '=', $request->USER_ID)
+        $Coordinator = DB::table('cordinators')
+            ->where('id', '=', $request->Coordinator)
+            ->first();
+
+        DB::table('approval_details')->insert([
+
+            "uuid"        => md5(uniqid() . date('Y-m-d H:i:s')),
+            "UserID"      => $request->UserID,
+            "From"        => $request->From,
+            "To"          => $request->To,
+            "Coordinator" => $Coordinator->Name,
+            "Signature"   => $Coordinator->Signature,
+
+        ]);
+
+        DB::table('users')->where('UserID', '=', $request->UserID)
             ->update([
 
                 'role' => 'PreTest',

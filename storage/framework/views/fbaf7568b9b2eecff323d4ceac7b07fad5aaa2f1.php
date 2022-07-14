@@ -1,7 +1,7 @@
 <?php if(isset($Apps)): ?>
     <?php $__currentLoopData = $Apps; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <div class="modal fade" aria-hidden="true" id="Approve<?php echo e($data->id); ?>">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-lg modal-fullscreen">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="staticBackdropLabel">Approve Student Course Application</h5>
@@ -18,51 +18,63 @@
                                 <?php echo csrf_field(); ?>
 
 
-                                <div class="mt-3  mb-3 col-md-6 ">
+                                <div class="mt-3  mb-3 col-md-4">
+                                    <label id="label" for="" class="required form-label">Approving Training
+                                        Coordinator</label>
+                                    <select required name="Coordinator" class="form-select form-select-solid"
+                                        data-control="select2" data-placeholder="Select a option">
+                                        <option></option>
+                                        <?php if(isset($Coordinators)): ?>
+                                            <?php $__currentLoopData = $Coordinators; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $c): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <option value="<?php echo e($c->id); ?>">
+                                                    <?php echo e($c->Name); ?></option>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <?php endif; ?>
+
+                                    </select>
+
+                                </div>
+
+
+
+                                <div class="mt-3  mb-3 col-md-4 ">
                                     <label id="label" for="" class=" required form-label">
 
                                         Start Date
 
                                     </label>
 
-                                    <input type="text" required name="StartDate" class="form-control DateArea"
+                                    <input type="text" required name="From" class="form-control DateArea"
                                         id="">
 
                                 </div>
 
 
-                                <div class="mt-3  mb-3 col-md-6 ">
+                                <div class="mt-3  mb-3 col-md-4 ">
                                     <label id="label" for="" class=" required form-label">
 
-                                        Course Duration in Weeks
-
+                                        End Date
                                     </label>
 
-                                    <input type="text" required name="CourseDuration" class="form-control IntOnlyNow"
+                                    <input type="text" required name="To" class="form-control DateArea"
                                         id="">
 
                                 </div>
 
 
-                                <div class="mt-3  mb-3 col-md-6 ">
-                                    <label id="label" for="" class=" required form-label">
 
-                                        Brief Comment
 
-                                    </label>
 
-                                    <input type="text" required name="Comment" class="form-control " id="">
 
-                                </div>
 
 
 
                             </div>
 
 
-                            <input type="hidden" name="id" value="<?php echo e($data->ID); ?>">
+                            <input type="hidden" name="UserID" value="<?php echo e($data->UserID); ?>">
 
-                            <input type="hidden" name="USER_ID" value="<?php echo e(Auth::user()->id); ?>">
+                            
 
 
 

@@ -48,13 +48,18 @@
 
                         <input type="hidden" name="created_at" value="<?php echo e(date('Y-m-d h:i:s')); ?>">
 
+                        <input type="hidden" name="role" value="Approve">
+
                         <input type="hidden" name="TableName" value="students">
 
                         <?php $__currentLoopData = $Form; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <?php if($data['type'] == 'string'): ?>
                                 <?php echo e(CreateInputText($data, $placeholder = null, $col = '4')); ?>
 
-                            <?php elseif('smallint' == $data['type'] || 'bigint' === $data['type'] || 'integer' == $data['type'] || 'bigint' == $data['type']): ?>
+                            <?php elseif('smallint' == $data['type'] ||
+                                'bigint' === $data['type'] ||
+                                'integer' == $data['type'] ||
+                                'bigint' == $data['type']): ?>
                                 <?php echo e(CreateInputInteger($data, $placeholder = null, $col = '4')); ?>
 
                             <?php elseif($data['type'] == 'date' || $data['type'] == 'datetime'): ?>
@@ -76,6 +81,15 @@
                                 Document (Only PDF )</label>
 
                             <input type="file" required name="StudentID" class="form-control" id="">
+
+                        </div>
+
+
+
+                        <div class="mt-3  mb-3 col-md-4 ">
+                            <label id="label" for="" class=" required form-label">Country</label>
+
+                            <input type="text" required name="nationality" class="form-control" id="">
 
                         </div>
 

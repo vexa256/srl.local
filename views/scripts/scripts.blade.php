@@ -52,6 +52,20 @@
     });
 </script>
 
+
+
+@isset($TermsYes)
+    <script>
+        $(document).ready(function() {
+            var myModal = new bootstrap.Modal(document.getElementById('TnCs'), {
+                keyboard: false
+            });
+
+            myModal.toggle()
+
+        });
+    </script>
+@endisset
 </body>
 <!--end::Body-->
 

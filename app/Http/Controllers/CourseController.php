@@ -17,7 +17,7 @@ class CourseController extends Controller
 
     public function MgtCourses()
     {
-        $rem = ['id', 'TotalPreTests', 'TotalPostTests', 'TotalPracticals', 'TotalExercises', 'TotalModules', 'created_at', 'updated_at', 'uuid', 'CID', 'Thumbnail'];
+        $rem = ['id', 'TotalPreTests', 'TotalPostTests', 'TotalPracticals', 'TotalExercises', 'TotalModules', 'created_at', 'updated_at', 'uuid', 'CID', 'Thumbnail', 'ApprovalStatus'];
 
         $FormEngine = new FormEngine();
 

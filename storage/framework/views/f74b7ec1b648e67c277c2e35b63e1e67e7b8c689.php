@@ -52,6 +52,20 @@
     });
 </script>
 
+
+
+<?php if(isset($TermsYes)): ?>
+    <script>
+        $(document).ready(function() {
+            var myModal = new bootstrap.Modal(document.getElementById('TnCs'), {
+                keyboard: false
+            });
+
+            myModal.toggle()
+
+        });
+    </script>
+<?php endif; ?>
 </body>
 <!--end::Body-->
 

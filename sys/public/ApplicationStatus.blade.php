@@ -1,6 +1,11 @@
 <!--begin::Card body-->
 <div class="card-body pt-3 bg-light shadow-lg table-responsive">
-    {!! Alert($icon = 'fa-info', $class = 'alert-primary', $Title = 'Your Application is Pending Approval. You will proceed to the next step upon approval', $Msg = null) !!}
+    {!! Alert(
+        $icon = 'fa-info',
+        $class = 'alert-primary',
+        $Title = 'Your Application is Pending Approval. You will proceed to the next step upon approval',
+        $Msg = null,
+    ) !!}
 
 </div>
 <div class="card-body pt-3 bg-light shadow-lg table-responsive">
@@ -47,7 +52,7 @@
                         <td>{{ $data->name }}</td>
                         <td>{{ $data->CourseName }}</td>
 
-                        @if ($data->ApprovalStatus == 'false')
+                        @if ($data->role == 'Approve')
                             <td class="bg-dark text-light">Application Pending
                                 Approval</td>
                         @else
@@ -86,7 +91,7 @@
                         </td>
 
                         <td>
-                            <a data-bs-toggle="modal" href="#ViewMore{{ $data->Uid }}" class="btn btn-sm  btn-warning">
+                            <a data-bs-toggle="modal" href="#ViewMore{{ $data->UserID }}" class="btn btn-sm  btn-warning">
                                 <i class="fas fa-binoculars me-1" aria-hidden="true"></i>
                             </a>
                         </td>

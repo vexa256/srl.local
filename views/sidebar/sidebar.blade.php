@@ -47,9 +47,9 @@
                             Options</span>
                     </div>
                 </div>
-
+                ''
                 @auth
-                    @if (Auth::user()->role == 'student')
+                    @if (Auth::user()->role == 'student' || Auth::user()->role == 'Approve' || Auth::user()->role == 'PreTest')
                         @include('sidebar.Student')
                     @elseif (Auth::user()->role == 'Instructor')
                         @include('sidebar.Facilitators')
@@ -57,8 +57,8 @@
                     @else
                         @include('sidebar.CourseSettings')
                         @include('sidebar.CourseMaterials')
-                        {{-- @include('sidebar.Reports') --}}
-                        {{-- @include('sidebar.Users') --}}
+                        @include('sidebar.Reports')
+                        @include('sidebar.Users')
                     @endif
                 @endauth
 

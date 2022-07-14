@@ -10,9 +10,7 @@
 
         <?php
         
-        MenuItem($link = '#', $label = 'Manage Admins');
-        MenuItem($link = '#', $label = 'Manage Examiners');
-        MenuItem($link = '#', $label = 'Manage Instructors');
+        MenuItem($link = route('MgtUsers'), $label = 'Manage All Users');
         
         ?>
 

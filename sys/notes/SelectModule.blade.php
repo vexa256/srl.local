@@ -9,13 +9,12 @@
                 <div class="mb-3 col-md-12  py-5   my-5">
                     <label id="label" for="" class="px-5   my-5 required form-label">Select
                         Course Module</label>
-                    <select required name="id"
-                        class="form-select  py-5   my-5 form-select-solid"
+                    <select required name="id" class="form-select  py-5   my-5 form-select-solid"
                         data-control="select2" data-placeholder="Select a option">
                         <option></option>
                         @isset($Modules)
 
-                            @foreach ($Modules->unique('module') as $data)
+                            @foreach ($Modules as $data)
                                 <option value="{{ $data->id }}">
                                     {{ $data->Module }}
                                     ({{ $data->CourseName }})

@@ -40,7 +40,7 @@
                                     <label id="label" for="" class=" required form-label">Enter the Score for
                                         this student
 
-                                        (Follow the assessment rules)
+                                        (Enter Percentage Score)
                                     </label>
 
                                     <input type="text" required name="Score" class="form-control IntOnlyNow">

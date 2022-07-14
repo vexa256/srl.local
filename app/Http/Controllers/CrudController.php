@@ -28,6 +28,28 @@ class CrudController extends Controller
 
     public function MassInsert(Request $request)
     {
+        if ($request->TableName == 'users') {
+
+            $validated = $request->validate([
+                '*'     => 'required',
+                'files' => 'nullable',
+            ]);
+
+            $password = \Hash::make($request->password);
+
+            $this->SaveData($request);
+
+            DB::table('users')
+                ->where('UserID', $request->UserID)
+                ->update([
+                    'password' => $password,
+                ]);
+
+            return redirect()
+                ->back()
+                ->with('status', 'The new admin account was created successfully');
+
+        }
         if ($request->TableName == 'exam_timer_logics') {
 
             $validated = $request->validate([
@@ -51,9 +73,7 @@ class CrudController extends Controller
             ]);
 
             DB::table($request->TableName)
-                ->where('uuid', $request->uuid)
-
-                ->update(
+                ->insert(
                     $request->except(['_token', 'TableName', 'id', 'files'])
                 );
 

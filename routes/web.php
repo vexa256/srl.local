@@ -15,6 +15,7 @@ use App\Http\Controllers\MarkPracticalTestController;
 use App\Http\Controllers\MarkPreTestExamController;
 use App\Http\Controllers\NotesController;
 use App\Http\Controllers\OpenController;
+use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\ScoreBoardController;
 use App\Http\Controllers\TestSetterController;
 use Illuminate\Support\Facades\Route;
@@ -29,7 +30,20 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
  */
+Route::controller(ReportsController::class)->group(function () {
+
+    Route::any('MgtUsers', 'MgtUsers')->name('MgtUsers');
+
+    Route::any('CourseEnrollment', 'CourseEnrollment')->name('CourseEnrollment');
+
+    Route::any('StudentDatabase', 'StudentDatabase')->name('StudentDatabase');
+
+    Route::any('CountryEnrollment', 'CountryEnrollment')->name('CountryEnrollment');
+
+});
 Route::controller(OpenController::class)->group(function () {
+    Route::any('StudentModules', 'StudentModules')->name('StudentModules');
+
     Route::any('NewStudent', 'NewStudent')->name('NewStudent');
 
     Route::any('/', 'ViewCourses')->name('ViewCourses');

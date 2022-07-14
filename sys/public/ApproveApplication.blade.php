@@ -1,6 +1,11 @@
 <!--begin::Card body-->
 <div class="card-body pt-3 bg-light shadow-lg table-responsive">
-    {!! Alert($icon = 'fa-info', $class = 'alert-primary', $Title = ' Approve pending student course enrollment application ', $Msg = null) !!}
+    {!! Alert(
+        $icon = 'fa-info',
+        $class = 'alert-primary',
+        $Title = ' Approve pending student course enrollment application ',
+        $Msg = null,
+    ) !!}
 
 </div>
 <div class="card-body pt-3 bg-light shadow-lg table-responsive">
@@ -46,7 +51,7 @@
                         <td>{{ $data->name }}</td>
                         <td>{{ $data->CourseName }}</td>
 
-                        @if ($data->ApprovalStatus == 'false')
+                        @if ($data->role == 'Approve')
                             <td class="bg-dark text-light">Application Pending
                                 Approval</td>
                         @else

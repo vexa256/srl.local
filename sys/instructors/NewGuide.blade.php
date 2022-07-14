@@ -10,8 +10,7 @@
                 </h5>
 
                 <!--begin::Close-->
-                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2"
-                    data-bs-dismiss="modal" aria-label="Close">
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
                     <i class="fas fa-2x fa-times" aria-hidden="true"></i>
                 </div>
                 <!--end::Close-->
@@ -19,20 +18,18 @@
 
             <div class="modal-body ">
 
-                <form action="{{ route('NewDoc') }}" class="row" method="POST"
-                    enctype="multipart/form-data"> @csrf
+                <form action="{{ route('NewDoc') }}" class="row" method="POST" enctype="multipart/form-data">
+                    @csrf
                     <div class="row">
                         <div class="mb-3 col-md-6  ">
-                            <label id="label" for=""
-                                class="required mt-3 form-label">Select
+                            <label id="label" for="" class="required mt-3 form-label">Select
                                 Course Module</label>
-                            <select required name="MID"
-                                class="form-select   form-select-solid"
+                            <select required name="MID" class="form-select   form-select-solid"
                                 data-control="select2" data-placeholder="Select a option">
                                 <option></option>
                                 @isset($Modules)
 
-                                    @foreach ($Modules->unique('id') as $data)
+                                    @foreach ($Modules as $data)
                                         <option value="{{ $data->MID }}">
                                             {{ $data->Module }}
                                             ({{ $data->CourseName }})
@@ -45,11 +42,9 @@
                         </div>
 
                         <div class="mb-3 col-md-6  ">
-                            <label id="label" for=""
-                                class="required mt-3 form-label">Select
+                            <label id="label" for="" class="required mt-3 form-label">Select
                                 Course </label>
-                            <select required name="CID"
-                                class="form-select   form-select-solid"
+                            <select required name="CID" class="form-select   form-select-solid"
                                 data-control="select2" data-placeholder="Select a option">
                                 <option></option>
                                 @isset($Courses)
@@ -66,16 +61,17 @@
 
                         </div>
 
-                        <input type="hidden" name="created_at"
-                            value="{{ date('Y-m-d h:i:s') }}">
+                        <input type="hidden" name="created_at" value="{{ date('Y-m-d h:i:s') }}">
 
-                        <input type="hidden" name="TableName"
-                            value="instructor_guidelines">
+                        <input type="hidden" name="TableName" value="instructor_guidelines">
 
                         @foreach ($Form as $data)
                             @if ($data['type'] == 'string')
                                 {{ CreateInputText($data, $placeholder = null, $col = '6') }}
-                            @elseif ('smallint' == $data['type'] || 'bigint' === $data['type'] || 'integer' == $data['type'] || 'bigint' == $data['type'])
+                            @elseif ('smallint' == $data['type'] ||
+                                'bigint' === $data['type'] ||
+                                'integer' == $data['type'] ||
+                                'bigint' == $data['type'])
                                 {{ CreateInputInteger($data, $placeholder = null, $col = '3') }}
                             @elseif ($data['type'] == 'date' || $data['type'] == 'datetime')
                                 {{ CreateInputDate($data, $placeholder = null, $col = '3') }}
@@ -88,8 +84,7 @@
 
                                 Instructor Guide (Only PDF is Supported)</label>
 
-                            <input type="file" required name="url" class="form-control"
-                                id="">
+                            <input type="file" required name="url" class="form-control" id="">
 
                         </div>
 
@@ -107,8 +102,7 @@
 
 
 
-                    <input type="hidden" name="uuid"
-                        value="{{ md5(date('Y-m-d H:I:S') . uniqid()) }}">
+                    <input type="hidden" name="uuid" value="{{ md5(date('Y-m-d H:I:S') . uniqid()) }}">
 
 
 
@@ -116,8 +110,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-info"
-                    data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-info" data-bs-dismiss="modal">Close</button>
 
                 <button type="submit" class="btn btn-dark">Save
                     Changes</button>

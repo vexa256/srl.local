@@ -2,7 +2,12 @@
     <div class="col-md-12">
         <!--begin::Card body-->
         <div class="card-body pt-3 bg-light shadow-lg table-responsive">
-            {!! Alert($icon = 'fa-info', $class = 'alert-primary', $Title = $ModuleName . ' (' . $CourseName . ') Document Notes', $Msg = null) !!}
+            {!! Alert(
+                $icon = 'fa-info',
+                $class = 'alert-primary',
+                $Title = $ModuleName . ' (' . $CourseName . ') Document Notes',
+                $Msg = null,
+            ) !!}
 
 
         </div>
@@ -31,7 +36,7 @@
                 </thead>
                 <tbody>
                     @isset($Notes)
-                        @foreach ($Notes->unique('id') as $data)
+                        @foreach ($Notes as $data)
                             <tr>
 
                                 <td>{{ $CourseName }}</td>
@@ -42,10 +47,9 @@
 
                                 <td>
                                     <a data-doc="  {{ $data->Title }} ({{ $data->BriefDescription }})"
-                                        data-source="{{ asset('assets/data/' . $data->url) }}"
-                                        data-bs-toggle="modal" href="#PdfJS"
-                                        class="btn btn-sm  PdfViewer btn-info"> <i
-                                            class="fas fa-file-pdf" aria-hidden="true"></i>
+                                        data-source="{{ asset('assets/data/' . $data->url) }}" data-bs-toggle="modal"
+                                        href="#PdfJS" class="btn btn-sm  PdfViewer btn-info"> <i class="fas fa-file-pdf"
+                                            aria-hidden="true"></i>
                                     </a>
                                 </td>
 
