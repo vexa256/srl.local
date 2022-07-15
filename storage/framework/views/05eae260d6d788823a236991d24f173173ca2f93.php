@@ -26,7 +26,12 @@
             <div class="modal-body ">
 
                 <div class="card-body pt-3 bg-light shadow-lg table-responsive">
-                    <?php echo Alert($icon = 'fa-info', $class = 'alert-primary', $Title = $ModuleName . ' (' . $CourseName . ') Video Notes', $Msg = null); ?>
+                    <?php echo Alert(
+                        $icon = 'fa-info',
+                        $class = 'alert-primary',
+                        $Title = $ModuleName . ' (' . $CourseName . ') Video Notes',
+                        $Msg = null,
+                    ); ?>
 
 
 
@@ -58,7 +63,7 @@
                         </thead>
                         <tbody>
                             <?php if(isset($Videos)): ?>
-                                <?php $__currentLoopData = $Videos->unique('id'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php $__currentLoopData = $Videos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr>
 
                                         <td><?php echo e($CourseName); ?></td>
@@ -84,13 +89,13 @@
                                             <td>
 
                                                 <?php echo ConfirmBtn(
-    $data = [
-        'msg' => 'You want to delete this record',
-        'route' => route('DeleteDoc', ['id' => $data->id, 'TableName' => 'notes']),
-        'label' => '<i class="fas fa-trash"></i>',
-        'class' => 'btn btn-danger btn-sm deleteConfirm admin',
-    ],
-); ?>
+                                                    $data = [
+                                                        'msg' => 'You want to delete this record',
+                                                        'route' => route('DeleteDoc', ['id' => $data->id, 'TableName' => 'notes']),
+                                                        'label' => '<i class="fas fa-trash"></i>',
+                                                        'class' => 'btn btn-danger btn-sm deleteConfirm admin',
+                                                    ],
+                                                ); ?>
 
 
                                             </td>
